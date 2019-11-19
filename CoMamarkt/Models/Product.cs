@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,9 +16,9 @@ namespace CoMaMarkt.Models
 
         public int SubsubcategorieId { get; set; }
         public Subsubcategorie Subsubcategorie { get; set; }
-
-        public int BestellingId { get; set; }
-        public Bestelling Bestelling { get; set; } 
+        
+        [NotMapped]
+        public List<Bestelling> Bestellings { get; set; } 
 
         public int Id { get; set; }
         public long EAN { get; set; }

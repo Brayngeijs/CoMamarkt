@@ -22,7 +22,7 @@ namespace CoMamarkt.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Product.Include(p => p.Bestelling).Include(p => p.Categorie).Include(p => p.Subcategorie).Include(p => p.Subsubcategorie);
+            var applicationDbContext = _context.Product.Include(p => p.Categorie).Include(p => p.Subcategorie).Include(p => p.Subsubcategorie);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace CoMamarkt.Controllers
             }
 
             var product = await _context.Product
-                .Include(p => p.Bestelling)
                 .Include(p => p.Categorie)
                 .Include(p => p.Subcategorie)
                 .Include(p => p.Subsubcategorie)
@@ -51,10 +50,9 @@ namespace CoMamarkt.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["BestellingNaam"] = new SelectList(_context.Set<Bestelling>(), "Id", "Naam");
-            ViewData["CategorieNaam"] = new SelectList(_context.Categorie, "Id", "Naam");
-            ViewData["SubcategorieNaam"] = new SelectList(_context.Subcategorie, "Id", "Naam");
-            ViewData["SubsubcategorieNaam"] = new SelectList(_context.Subsubcategorie, "Id", "Naam");
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id");
+            ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id");
+            ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id");
             return View();
         }
 
@@ -63,7 +61,7 @@ namespace CoMamarkt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategorieId,SubcategorieId,SubsubcategorieId,BestellingId,Id,EAN,Naam,Merk,KorteOmschrijving,Omschrijving,Image,Gewicht,Prijs")] Product product)
+        public async Task<IActionResult> Create([Bind("CategorieId,SubcategorieId,SubsubcategorieId,Id,EAN,Naam,Merk,KorteOmschrijving,Omschrijving,Image,Gewicht,Prijs")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +69,6 @@ namespace CoMamarkt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BestellingId"] = new SelectList(_context.Set<Bestelling>(), "Id", "Id", product.BestellingId);
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", product.CategorieId);
             ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", product.SubcategorieId);
             ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id", product.SubsubcategorieId);
@@ -91,7 +88,6 @@ namespace CoMamarkt.Controllers
             {
                 return NotFound();
             }
-            ViewData["BestellingId"] = new SelectList(_context.Set<Bestelling>(), "Id", "Id", product.BestellingId);
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", product.CategorieId);
             ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", product.SubcategorieId);
             ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id", product.SubsubcategorieId);
@@ -103,7 +99,7 @@ namespace CoMamarkt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategorieId,SubcategorieId,SubsubcategorieId,BestellingId,Id,EAN,Naam,Merk,KorteOmschrijving,Omschrijving,Image,Gewicht,Prijs")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("CategorieId,SubcategorieId,SubsubcategorieId,Id,EAN,Naam,Merk,KorteOmschrijving,Omschrijving,Image,Gewicht,Prijs")] Product product)
         {
             if (id != product.Id)
             {
@@ -130,7 +126,6 @@ namespace CoMamarkt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BestellingId"] = new SelectList(_context.Set<Bestelling>(), "Id", "Id", product.BestellingId);
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", product.CategorieId);
             ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", product.SubcategorieId);
             ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id", product.SubsubcategorieId);
@@ -146,7 +141,6 @@ namespace CoMamarkt.Controllers
             }
 
             var product = await _context.Product
-                .Include(p => p.Bestelling)
                 .Include(p => p.Categorie)
                 .Include(p => p.Subcategorie)
                 .Include(p => p.Subsubcategorie)
