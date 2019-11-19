@@ -7,6 +7,18 @@ namespace CoMaMarkt.Models
 {
     public class Product
     {
+        public int CategorieId { get; set; }
+        public Categorie Categorie { get; set; }
+
+        public int SubcategorieId { get; set; }
+        public Subcategorie Subcategorie { get; set; }
+
+        public int SubsubcategorieId { get; set; }
+        public Subsubcategorie Subsubcategorie { get; set; }
+
+        public int BestellingId { get; set; }
+        public Bestelling Bestelling { get; set; } 
+
         public int Id { get; set; }
         public long EAN { get; set; }
         public string Naam { get; set; }
@@ -17,13 +29,7 @@ namespace CoMaMarkt.Models
         public string Gewicht { get; set; }
         public decimal Prijs { get; set; }
 
-        public int CategorieId { get; set; }
-        public Categorie Categorie { get; set; }
+        
 
-        public int SubcategorieId { get; set; }
-        public Subcategorie Subcategorie { get; set; }
-
-        public int SubsubcategorieId { get; set; }
-        public Subsubcategorie Subsubcategorie { get; set; }
     }
 }
