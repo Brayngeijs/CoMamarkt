@@ -23,7 +23,8 @@ namespace CoMamarkt
                 IdentityUser user = new IdentityUser
                 {
                     UserName = "abc@xyz.com",
-                    Email = "abc@xyz.com"
+                    Email = "abc@xyz.com",
+                    EmailConfirmed = true
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "Welkom01!").Result;
