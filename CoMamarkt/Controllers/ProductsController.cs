@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoMaMarkt.Models;
 using CoMamarkt.Data;
+using System.Xml;
+using System.Globalization;
 
 namespace CoMamarkt.Controllers
 {
@@ -73,6 +75,37 @@ namespace CoMamarkt.Controllers
             ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", product.SubcategorieId);
             ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id", product.SubsubcategorieId);
             return View(product);
+        }
+
+         public async Task<IActionResult> LoadXml() 
+        {
+            XmlDocument xdoc = new XmlDocument();
+
+            xdoc.Load(
+                "https://supermaco.starwave.nl/api/products"
+                );
+
+            XmlNodeList elemList = xdoc.GetElementsByTagName("Product");
+
+            for (int i = 0; i < elemList.Count; i++)
+            {
+                Product p = new Product();
+                p.EAN = Convert.ToInt64(elemList[i].SelectSingleNode("./EAN").InnerXml);
+                p.Naam = elemList[i].SelectSingleNode("./Title").InnerXml;
+                p.Merk = elemList[i].SelectSingleNode("./Brand").InnerXml;
+                p.KorteOmschrijving = elemList[i].SelectSingleNode("./Shortdescription").InnerXml;
+                p.Omschrijving = elemList[i].SelectSingleNode("./Fulldescription").InnerXml;
+                p.Image = elemList[i].SelectSingleNode("./Image").InnerXml;
+                p.Gewicht = elemList[i].SelectSingleNode("./Weight").InnerXml;
+                p.Prijs = Convert.ToDouble(elemList[i].SelectSingleNode("./Price").InnerXml, CultureInfo.InvariantCulture);
+                //p.Categorie = elemList[i].SelectSingleNode("./Category").InnerXml;
+                _context.Add(p);
+            }
+
+           
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
         }
 
         // GET: Products/Edit/5

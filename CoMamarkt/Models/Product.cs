@@ -28,7 +28,7 @@ namespace CoMaMarkt.Models
         public string Omschrijving { get; set; }
         public string Image { get; set; }
         public string Gewicht { get; set; }
-        public decimal Prijs { get; set; }
+        public double Prijs { get; set; }
 
         
 
