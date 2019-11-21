@@ -50,9 +50,9 @@ namespace CoMamarkt.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id");
-            ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id");
-            ViewData["SubsubcategorieId"] = new SelectList(_context.Subsubcategorie, "Id", "Id");
+            ViewData["CategorieNaam"] = new SelectList(_context.Categorie, "Id", "Naam");
+            ViewData["SubcategorieNaam"] = new SelectList(_context.Subcategorie, "Id", "Naam");
+            ViewData["SubsubcategorieNaam"] = new SelectList(_context.Subsubcategorie, "Id", "Naam");
             return View();
         }
 

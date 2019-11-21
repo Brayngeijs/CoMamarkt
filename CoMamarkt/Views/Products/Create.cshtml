@@ -14,15 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CategorieId" class="control-label"></label>
-                <select asp-for="CategorieId" class ="form-control" asp-items="ViewBag.CategorieId"></select>
+                <select asp-for="CategorieId" class ="form-control" asp-items="ViewBag.CategorieNaam"></select>
             </div>
             <div class="form-group">
                 <label asp-for="SubcategorieId" class="control-label"></label>
-                <select asp-for="SubcategorieId" class ="form-control" asp-items="ViewBag.SubcategorieId"></select>
+                <select asp-for="SubcategorieId" class ="form-control" asp-items="ViewBag.SubcategorieNaam"></select>
             </div>
             <div class="form-group">
                 <label asp-for="SubsubcategorieId" class="control-label"></label>
-                <select asp-for="SubsubcategorieId" class ="form-control" asp-items="ViewBag.SubsubcategorieId"></select>
+                <select asp-for="SubsubcategorieId" class="form-control" asp-items="ViewBag.SubsubcategorieNaam">
+                </select>
+                
             </div>
             <div class="form-group">
                 <label asp-for="EAN" class="control-label"></label>
