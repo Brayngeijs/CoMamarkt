@@ -12,6 +12,22 @@
     <p>
         <a asp-action="LoadXml">XML laden</a>
     </p>
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                <div class="col-sm-3">
+                    <div class="card" style=" margin:10px">
+                        <img class="card-img-top" src="~/Images/image-not-found.jpg" alt="Card image" />
+                        <div class="card-body" style="height:100px;">
+                            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Naam)</a> 
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
     <table class="table">
         <thead>
             <tr>
