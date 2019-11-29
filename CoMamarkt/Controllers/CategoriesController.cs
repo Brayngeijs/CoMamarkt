@@ -79,9 +79,9 @@ namespace CoMamarkt.Controllers
 
             for (int i = 0; i < elemList.Count; i++)
             {
-                Categorie p = new Categorie();
-                p.Naam = elemList[i].SelectSingleNode("./Name").InnerXml;
-                _context.Add(p);
+                Categorie c = new Categorie();
+                c.Naam = elemList[i].SelectSingleNode("./Name").InnerXml;
+                _context.Add(c);
             }
 
            

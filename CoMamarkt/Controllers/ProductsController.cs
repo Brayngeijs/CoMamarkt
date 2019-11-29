@@ -90,6 +90,7 @@ namespace CoMamarkt.Controllers
             for (int i = 0; i < elemList.Count; i++)
             {
                 Product p = new Product();
+             
                 p.EAN = Convert.ToInt64(elemList[i].SelectSingleNode("./EAN").InnerXml);
                 p.Naam = elemList[i].SelectSingleNode("./Title").InnerXml;
                 p.Merk = elemList[i].SelectSingleNode("./Brand").InnerXml;
@@ -98,7 +99,18 @@ namespace CoMamarkt.Controllers
                 p.Image = elemList[i].SelectSingleNode("./Image").InnerXml;
                 p.Gewicht = elemList[i].SelectSingleNode("./Weight").InnerXml;
                 p.Prijs = Convert.ToDouble(elemList[i].SelectSingleNode("./Price").InnerXml, CultureInfo.InvariantCulture);
-                //p.Categorie = elemList[i].SelectSingleNode("./Category").InnerXml;
+                
+                var categorieNaam = elemList[i].SelectSingleNode("./Category").InnerXml;
+                var categorie = _context.Categorie.First(c => c.Naam == categorieNaam);
+                p.Categorie = categorie;
+
+                var subcategorieNaam = elemList[i].SelectSingleNode("./Subcategory").InnerXml;
+                var subcategorie = _context.Subcategorie.First(c => c.Naam == subcategorieNaam);
+                p.Subcategorie = subcategorie;
+
+                var subsubcategorieNaam = elemList[i].SelectSingleNode("./Subsubcategory").InnerXml;
+                var subsubcategorie = _context.Subsubcategorie.First(c => c.Naam == subsubcategorieNaam);
+                p.Subsubcategorie = subsubcategorie;
                 _context.Add(p);
             }
 

@@ -12,5 +12,6 @@ namespace CoMaMarkt.Models
         public string BannerURL { get; set; }
         public List<Product> Products { get; set; }
         public List<Subcategorie> Subcategorieen { get; set; }
+        public string Image { get; set; } 
     }
 }

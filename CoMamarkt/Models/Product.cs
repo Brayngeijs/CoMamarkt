@@ -8,13 +8,13 @@ namespace CoMaMarkt.Models
 {
     public class Product
     {
-        public int CategorieId { get; set; }
+        public int? CategorieId { get; set; }
         public Categorie Categorie { get; set; }
 
-        public int SubcategorieId { get; set; }
+        public int? SubcategorieId { get; set; }
         public Subcategorie Subcategorie { get; set; }
 
-        public int SubsubcategorieId { get; set; }
+        public int? SubsubcategorieId { get; set; }
         public Subsubcategorie Subsubcategorie { get; set; }
         
         [NotMapped]
