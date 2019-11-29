@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoMaMarkt.Models;
 using CoMamarkt.Data;
+using System.Xml;
 
 namespace CoMamarkt.Controllers
 {
@@ -67,6 +68,39 @@ namespace CoMamarkt.Controllers
             }
             ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", subsubcategorie.SubcategorieId);
             return View(subsubcategorie);
+        }
+
+        public async Task<IActionResult> LoadXml()
+        {
+            XmlDocument xdoc = new XmlDocument();
+
+            xdoc.Load(
+                "https://supermaco.starwave.nl/api/categories"
+                );
+
+            XmlNodeList elemList = xdoc.GetElementsByTagName("Category");
+
+            for (int i = 0; i < elemList.Count; i++)
+            {
+                XmlNodeList subCategories = elemList[i].SelectNodes("./Subcategory");
+                for (int y = 0; y < subCategories.Count; y++)
+                {
+                    XmlNodeList subsubCategories = subCategories[y].SelectNodes("./Subsubcategory");
+                    for (int x = 0; x < subsubCategories.Count; x++)
+                    {
+                        Subsubcategorie ssc = new Subsubcategorie();
+                        ssc.Naam = subsubCategories[x].SelectSingleNode("./Name").InnerXml;
+
+
+                        _context.Add(ssc);
+                    }
+                }
+            }
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Subsubcategories/Edit/5

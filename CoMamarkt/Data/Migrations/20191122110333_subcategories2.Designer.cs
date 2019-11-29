@@ -4,14 +4,16 @@ using CoMamarkt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoMamarkt.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191122110333_subcategories2")]
+    partial class subcategories2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace CoMamarkt.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Naam")
                         .HasColumnType("nvarchar(max)");
@@ -44,7 +43,7 @@ namespace CoMamarkt.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategorieId")
+                    b.Property<int>("CategorieId")
                         .HasColumnType("int");
 
                     b.Property<long>("EAN")
@@ -71,10 +70,10 @@ namespace CoMamarkt.Data.Migrations
                     b.Property<double>("Prijs")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SubcategorieId")
+                    b.Property<int>("SubcategorieId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubsubcategorieId")
+                    b.Property<int>("SubsubcategorieId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -332,15 +331,21 @@ namespace CoMamarkt.Data.Migrations
                 {
                     b.HasOne("CoMaMarkt.Models.Categorie", "Categorie")
                         .WithMany("Products")
-                        .HasForeignKey("CategorieId");
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CoMaMarkt.Models.Subcategorie", "Subcategorie")
                         .WithMany("Products")
-                        .HasForeignKey("SubcategorieId");
+                        .HasForeignKey("SubcategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CoMaMarkt.Models.Subsubcategorie", "Subsubcategorie")
                         .WithMany("Products")
-                        .HasForeignKey("SubsubcategorieId");
+                        .HasForeignKey("SubsubcategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CoMaMarkt.Models.Subcategorie", b =>

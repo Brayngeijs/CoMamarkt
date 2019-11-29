@@ -52,13 +52,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Categorie.Id)
+                @Html.DisplayFor(modelItem => item.Categorie.Naam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subcategorie.Id)
+                @Html.DisplayFor(modelItem => item.Subcategorie.Naam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subsubcategorie.Id)
+                @Html.DisplayFor(modelItem => item.Subsubcategorie.Naam)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EAN)
@@ -76,7 +76,7 @@
                 @Html.DisplayFor(modelItem => item.Omschrijving)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                <img height="250" width="250" src="@item.Image" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gewicht)
