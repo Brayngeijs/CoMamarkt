@@ -16,4 +16,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Areas\CMS\Data\" />
+    <Folder Include="Areas\CMS\Models\" />
+    <Folder Include="wwwroot\CMS\" />
+  </ItemGroup>
+
 </Project>

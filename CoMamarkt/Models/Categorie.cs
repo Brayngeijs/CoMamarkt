@@ -9,6 +9,7 @@ namespace CoMaMarkt.Models
     {
         public int Id { get; set; }
         public string Naam { get; set; }
+        public string BannerURL { get; set; }
         public List<Product> Products { get; set; }
         public List<Subcategorie> Subcategorieen { get; set; }
     }
