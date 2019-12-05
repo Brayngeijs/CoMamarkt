@@ -17,5 +17,6 @@ namespace CoMamarkt.Data
         public DbSet<CoMaMarkt.Models.Subcategorie> Subcategorie { get; set; }
         public DbSet<CoMaMarkt.Models.Subsubcategorie> Subsubcategorie { get; set; }
         public DbSet<CoMaMarkt.Models.Product> Product { get; set; }
+        public DbSet<CoMaMarkt.Models.Bezorgmoment> Bezorgmoment { get; set; }
     }
 }
