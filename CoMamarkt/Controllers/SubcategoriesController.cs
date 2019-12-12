@@ -82,11 +82,18 @@ namespace CoMamarkt.Controllers
 
             for (int i = 0; i < elemList.Count; i++)
             {
+
                 XmlNodeList subCategories = elemList[i].SelectNodes("./Subcategory");
+
                 for (int y = 0; y < subCategories.Count; y++)
                 {
                     Subcategorie sc = new Subcategorie();
-                    sc.Naam = subCategories[y].SelectSingleNode("./Name").InnerXml;
+
+                    var categorieNaam = elemList[i].SelectSingleNode("./Name").InnerXml;
+                    var categorie = _context.Categorie.First(c => c.Naam == categorieNaam);
+                    sc.Categorie = categorie;
+
+                    sc.Naam = subCategories[y].SelectSingleNode("./Name").InnerXml;                    
 
 
                     _context.Add(sc);

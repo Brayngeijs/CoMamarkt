@@ -9,7 +9,6 @@ using CoMaMarkt.Models;
 using CoMamarkt.Data;
 using System.Xml;
 using System.Globalization;
-
 namespace CoMamarkt.Controllers
 {
     public class CategoriesController : Controller
@@ -24,7 +23,8 @@ namespace CoMamarkt.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categorie.ToListAsync());
+            var subcategorieën = await _context.Categorie.Include(c => c.Subcategorieen).ToListAsync();
+            return View(subcategorieën);
         }
 
         // GET: Categories/Details/5
@@ -34,7 +34,6 @@ namespace CoMamarkt.Controllers
             {
                 return NotFound();
             }
-
             var categorie = await _context.Categorie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categorie == null)
@@ -43,6 +42,20 @@ namespace CoMamarkt.Controllers
             }
 
             return View(categorie);
+        }
+
+        public IActionResult Subcategorieën(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subcategorie = _context.Subcategorie.Where(m => m.CategorieId == id).Include(p => p.Products);
+            if (subcategorie == null)
+            {
+                return NotFound();
+            }
+            return View(subcategorie);
         }
 
         // GET: Categories/Create
@@ -67,7 +80,7 @@ namespace CoMamarkt.Controllers
             return View(categorie);
         }
 
-                 public async Task<IActionResult> LoadXml() 
+        public async Task<IActionResult> LoadXml() 
         {
             XmlDocument xdoc = new XmlDocument();
 
@@ -81,7 +94,7 @@ namespace CoMamarkt.Controllers
             {
                 Categorie c = new Categorie();
                 c.Naam = elemList[i].SelectSingleNode("./Name").InnerXml;
-                _context.Add(c);
+                _context.Update(c);
             }
 
            

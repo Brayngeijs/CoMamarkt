@@ -89,6 +89,9 @@ namespace CoMamarkt.Controllers
                     for (int x = 0; x < subsubCategories.Count; x++)
                     {
                         Subsubcategorie ssc = new Subsubcategorie();
+                        var categorieNaam = subCategories[y].SelectSingleNode("./Name").InnerXml;
+                        var categorie = _context.Subcategorie.First(c => c.Naam == categorieNaam);
+                        ssc.Subcategorie = categorie;
                         ssc.Naam = subsubCategories[x].SelectSingleNode("./Name").InnerXml;
 
 
