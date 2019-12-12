@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoMaMarkt.Models.Subcategorie>
+﻿@model IEnumerable<CoMaMarkt.Models.Bezorgmoment>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,10 +16,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Naam)
+                @Html.DisplayNameFor(model => model.Datum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Categorie)
+                @Html.DisplayNameFor(model => model.BeginTijd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EindTijd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prijs)
             </th>
             <th></th>
         </tr>
@@ -29,10 +35,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Naam)
+                    @Html.DisplayFor(modelItem => item.Datum)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Categorie.Naam)
+                    @Html.DisplayFor(modelItem => item.BeginTijd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EindTijd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prijs)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

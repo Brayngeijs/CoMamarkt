@@ -22,10 +22,18 @@ namespace CoMamarkt.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            
             var applicationDbContext = _context.Product.Include(p => p.Categorie).Include(p => p.Subcategorie).Include(p => p.Subsubcategorie);
-            return View(await applicationDbContext.ToListAsync());
+            var products = from s in _context.Product select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.Categorie.Naam.Contains(searchString) || p.Subcategorie.Naam.Contains(searchString) || p.Subsubcategorie.Naam.Contains(searchString) || p.Naam.Contains(searchString));
+            }
+            return View(await products.ToListAsync());
+            
         }
 
         // GET: Products/Details/5

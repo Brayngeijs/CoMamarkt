@@ -9,8 +9,8 @@ namespace CoMaMarkt.Models
     {
         public int Id { get; set; }
         public DateTime Datum { get; set; }
-        public TimeSpan BeginTijd { get; set; }
-        public TimeSpan EindTijd { get; set; }
+        public DateTime BeginTijd { get; set; }
+        public DateTime EindTijd { get; set; }
         public double Prijs { get; set; }
     }
 }

@@ -4,92 +4,30 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Gevonden Producten:</h1>
 
 <p>
     <a asp-action="Create">Create New</a> | <a asp-action="LoadXml">Laad XML</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Categorie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subcategorie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subsubcategorie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EAN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Naam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Merk)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KorteOmschrijving)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Omschrijving)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gewicht)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prijs)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categorie.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategorie.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subsubcategorie.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EAN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Merk)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KorteOmschrijving)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Omschrijving)
-            </td>
-            <td>
-                <img height="250" width="250" src="@item.Image" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gewicht)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prijs)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+                <div class="card" style=" margin:10px">
+                    <img class="card-img-top" src="@item.Image" alt="Card image" />
+                    <div class="card-body" style="height:100px;">
+                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Naam)</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
