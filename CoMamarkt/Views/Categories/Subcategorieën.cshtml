@@ -4,34 +4,34 @@
     ViewData["Title"] = "Subcategorieën";
 }
 
-<h1>Subcategorieën</h1>
-
-<h4>Product</h4>
-<hr />
 <div class="container">
 
     @foreach (var subcategorie in Model)
     {
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card" style=" height: 300px; margin:10px;">
-                    <div class="card-body" style="height:100px;">
-                        @Html.DisplayFor(modelItem => subcategorie.Naam)
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card card-product">
+                <div class="card-body">
+                    @Html.DisplayFor(modelItem => subcategorie.Naam)
+                </div>
+            </div>
+        </div>
+        @foreach (var product in subcategorie.Products)
+        {
+            <div class="col-md-3">
+                <div class="card" style=" margin:10px">
+                    <div class="card-body">
+                        <img class="card-img-top" src="@product.Image" alt="Product" />
+                        <p class="prijs">Prijs: €@Html.DisplayFor(modelItem => product.Prijs)</p>
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => product.Naam)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => product.KorteOmschrijving)</p>
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-success my-2 my-sm-0">Product pagina</a>
                     </div>
                 </div>
             </div>
-            @foreach (var product in subcategorie.Products)
-            {
-                <div class="col-sm-3">
-                    <div class="card" style=" height: 300px; margin:10px;">
-                        <img class="card-img-top" src="@product.Image" alt="Card image" />
-                        <div class="card-body" style="height:100px;">
-                            @Html.DisplayFor(modelItem => product.Naam)
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        }
+    </div>
+        <hr />
     }
 
 </div>
