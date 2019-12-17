@@ -70,24 +70,30 @@ namespace CoMamarkt.Controllers
         public async Task<IActionResult> LoadXml()
         {
             XmlDocument xdoc = new XmlDocument();
+
             xdoc.Load("https://supermaco.starwave.nl/api/deliveryslots");
 
-            XmlNodeList Deliveryslot = xdoc.GetElementsByTagName("Deliveryslot");
-               for (int i = 0; i < Deliveryslot.Count; i++)
-               {                        
-                    Bezorgmoment b = new Bezorgmoment();
-                    b.Datum = Convert.ToDateTime(Deliveryslot[i].SelectSingleNode("./Date").InnerXml);
+            XmlNodeList elemList = xdoc.GetElementsByTagName("Deliveryslot");
+            for (int i = 0; i < elemList.Count; i++)
+            {
+                XmlNodeList Timeslots = elemList[i].SelectNodes("./Timeslots");
+                for (int y = 0; y < Timeslots.Count; y++)
+                {
+                    XmlNodeList Timeslot = Timeslots[y].SelectNodes("./Timeslot");
+                    for (int x = 0; x < Timeslot.Count; x++)
+                    {
+                        Bezorgmoment b = new Bezorgmoment();
+                        b.Datum = Convert.ToDateTime(elemList[i].SelectSingleNode("./Date").InnerXml);
+                        b.BeginTijd = Convert.ToDateTime(Timeslot[x].SelectSingleNode("./StartTime").InnerXml);
+                        b.EindTijd = Convert.ToDateTime(Timeslot[x].SelectSingleNode("./EndTime").InnerXml);
+                        b.Prijs = Convert.ToDouble(Timeslot[x].SelectSingleNode("./Price").InnerXml, CultureInfo.InvariantCulture);
+                        _context.Add(b);
 
-                        XmlNodeList Timeslot = Deliveryslot[i].SelectNodes("./Timeslot");
-                        for (int x = 0; x < Timeslot.Count; x++)
-                        {
-                            b.BeginTijd = Convert.ToDateTime(Timeslot[x].SelectSingleNode("./StartTime").InnerXml);
-                            b.EindTijd = Convert.ToDateTime(Timeslot[x].SelectSingleNode("./EndTime").InnerXml);
-                            b.Prijs = Convert.ToDouble(Timeslot[x].SelectSingleNode("./Price").InnerXml, CultureInfo.InvariantCulture);
-                            _context.Add(b);
-                        }
-                        
-               }
+                              
+                    }
+                }
+            }
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
