@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Areas\CMS\Data\" />
     <Folder Include="Areas\CMS\Models\" />
+    <Folder Include="obj\Debug\netcoreapp3.0\Razor\Views\Categories\" />
     <Folder Include="wwwroot\CMS\" />
   </ItemGroup>
 
