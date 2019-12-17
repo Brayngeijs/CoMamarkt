@@ -72,12 +72,3 @@ body {
 .card-body {
     text-align: center;
 }
-
-.card-product{
-    height: auto;
-    margin: 5px 0 5px 0;
-}
-
-.container {
-    width: 100%;
-}

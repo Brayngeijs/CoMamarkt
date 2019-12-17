@@ -9,15 +9,22 @@ using CoMaMarkt.Models;
 using CoMamarkt.Data;
 using System.Xml;
 using System.Globalization;
+using CoMamarkt.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+
 namespace CoMamarkt.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public readonly IHostingEnvironment hostingEnvironment;
+
+        public CategoriesController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Categories
@@ -50,7 +57,7 @@ namespace CoMamarkt.Controllers
             {
                 return NotFound();
             }
-            var subcategorie = _context.Subcategorie.Where(m => m.CategorieId == id).Include(p => p.Products);
+            var subcategorie = _context.Subcategorie.Where(m => m.CategorieId == id).Include(p => p.Products).Include(p => p.Categorie);
             if (subcategorie == null)
             {
                 return NotFound();
@@ -103,20 +110,71 @@ namespace CoMamarkt.Controllers
                 return RedirectToAction(nameof(Index));
         }
 
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            if (id == null)
+            var categorie = _context.Categorie.Find(id);
+            CategorieEditViewModel categorieEditViewModel = new CategorieEditViewModel
             {
-                return NotFound();
+                Id = categorie.Id,
+                Naam = categorie.Naam,
+                BestaandeBannerURL = categorie.BannerURL,
+                BestaandeImageURL = categorie.Image                
+            };
+
+            return View(categorieEditViewModel);    
+        }
+        [HttpPost]
+        public async Task<IActionResult> FormEdit(CategorieEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var categorie = _context.Categorie.Find(model.Id);
+                categorie.Naam = model.Naam;
+                if (model.UploadImage != null)
+                {
+                    if (model.BestaandeImageURL != null)
+                    {
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "Images", model.BestaandeImageURL);
+                        System.IO.File.Delete(filePath);
+                    }
+                    categorie.Image = ProcessUploadedFile(model);
+
+                }
+                if (model.UploadBannerURL != null)
+                {
+                    if (model.BestaandeBannerURL != null)
+                    {
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "Images", model.BestaandeImageURL);
+                        System.IO.File.Delete(filePath);
+                    }
+                    categorie.BannerURL = ProcessUploadedFile(model);
+
+                }
+                _context.Update(categorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
 
-            var categorie = await _context.Categorie.FindAsync(id);
-            if (categorie == null)
+
+
+            return View();
+
+        }
+
+        private string ProcessUploadedFile(CategorieEditViewModel model)
+        {
+            string uniekImageNaam = null;
+            if (model.UploadImage != null)
             {
-                return NotFound();
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images");
+                uniekImageNaam = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniekImageNaam);
+                model.UploadImage.CopyTo(new FileStream(filePath, FileMode.Create));
+
             }
-            return View(categorie);
+
+            return uniekImageNaam;
         }
 
         // POST: Categories/Edit/5
