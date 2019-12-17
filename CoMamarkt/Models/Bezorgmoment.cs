@@ -12,5 +12,12 @@ namespace CoMaMarkt.Models
         public DateTime BeginTijd { get; set; }
         public DateTime EindTijd { get; set; }
         public double Prijs { get; set; }
+
+        public string DeDatum => Datum.ToString("dd/MM");
+        public string DeDag => Datum.ToString("dddd");
+        public string DeBeginTijd => BeginTijd.ToString("t");
+        public string DeEindTijd => EindTijd.ToString("t");
     }
+    
 }
+
