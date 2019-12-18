@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CoMamarkt.Data.Migrations
+namespace CoMamarkt.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class NieuweDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,11 +47,42 @@ namespace CoMamarkt.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bezorgmoment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Datum = table.Column<DateTime>(nullable: false),
+                    BeginTijd = table.Column<DateTime>(nullable: false),
+                    EindTijd = table.Column<DateTime>(nullable: false),
+                    Prijs = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bezorgmoment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categorie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naam = table.Column<string>(nullable: true),
+                    BannerURL = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorie", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +103,7 @@ namespace CoMamarkt.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +183,87 @@ namespace CoMamarkt.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Subcategorie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naam = table.Column<string>(nullable: true),
+                    CategorieId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subcategorie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subcategorie_Categorie_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categorie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subsubcategorie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naam = table.Column<string>(nullable: true),
+                    SubcategorieId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subsubcategorie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subsubcategorie_Subcategorie_SubcategorieId",
+                        column: x => x.SubcategorieId,
+                        principalTable: "Subcategorie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategorieId = table.Column<int>(nullable: true),
+                    SubcategorieId = table.Column<int>(nullable: true),
+                    SubsubcategorieId = table.Column<int>(nullable: true),
+                    EAN = table.Column<long>(nullable: false),
+                    Naam = table.Column<string>(nullable: true),
+                    Merk = table.Column<string>(nullable: true),
+                    KorteOmschrijving = table.Column<string>(nullable: true),
+                    Omschrijving = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Gewicht = table.Column<string>(nullable: true),
+                    Prijs = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Categorie_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categorie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Subcategorie_SubcategorieId",
+                        column: x => x.SubcategorieId,
+                        principalTable: "Subcategorie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Subsubcategorie_SubsubcategorieId",
+                        column: x => x.SubsubcategorieId,
+                        principalTable: "Subsubcategorie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +302,31 @@ namespace CoMamarkt.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_CategorieId",
+                table: "Product",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_SubcategorieId",
+                table: "Product",
+                column: "SubcategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_SubsubcategorieId",
+                table: "Product",
+                column: "SubsubcategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subcategorie_CategorieId",
+                table: "Subcategorie",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subsubcategorie_SubcategorieId",
+                table: "Subsubcategorie",
+                column: "SubcategorieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +347,25 @@ namespace CoMamarkt.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bezorgmoment");
+
+            migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Subsubcategorie");
+
+            migrationBuilder.DropTable(
+                name: "Subcategorie");
+
+            migrationBuilder.DropTable(
+                name: "Categorie");
         }
     }
 }

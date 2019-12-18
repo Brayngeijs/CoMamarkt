@@ -87,7 +87,7 @@ namespace CoMamarkt.Controllers
             return View(categorie);
         }
 
-        public async Task<IActionResult> LoadXml() 
+        public async Task<IActionResult> LoadXml()
         {
             XmlDocument xdoc = new XmlDocument();
 
@@ -104,10 +104,10 @@ namespace CoMamarkt.Controllers
                 _context.Update(c);
             }
 
-           
-                await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -119,10 +119,10 @@ namespace CoMamarkt.Controllers
                 Id = categorie.Id,
                 Naam = categorie.Naam,
                 BestaandeBannerURL = categorie.BannerURL,
-                BestaandeImageURL = categorie.Image                
+                BestaandeImageURL = categorie.Image
             };
 
-            return View(categorieEditViewModel);    
+            return View(categorieEditViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> FormEdit(CategorieEditViewModel model)
@@ -138,17 +138,17 @@ namespace CoMamarkt.Controllers
                         string filePath = Path.Combine(hostingEnvironment.WebRootPath, "Images", model.BestaandeImageURL);
                         System.IO.File.Delete(filePath);
                     }
-                    categorie.Image = ProcessUploadedFile(model);
+                    categorie.Image = ProcessUploadedImageFile(model);
 
                 }
                 if (model.UploadBannerURL != null)
                 {
                     if (model.BestaandeBannerURL != null)
                     {
-                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "Images", model.BestaandeImageURL);
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "Images", model.BestaandeBannerURL);
                         System.IO.File.Delete(filePath);
                     }
-                    categorie.BannerURL = ProcessUploadedFile(model);
+                    categorie.BannerURL = ProcessUploadedBannerFile(model);
 
                 }
                 _context.Update(categorie);
@@ -158,11 +158,11 @@ namespace CoMamarkt.Controllers
 
 
 
-            return View();
+            return View(model);
 
         }
 
-        private string ProcessUploadedFile(CategorieEditViewModel model)
+        private string ProcessUploadedImageFile(CategorieViewModel model)
         {
             string uniekImageNaam = null;
             if (model.UploadImage != null)
@@ -170,13 +170,30 @@ namespace CoMamarkt.Controllers
                 string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images");
                 uniekImageNaam = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniekImageNaam);
-                model.UploadImage.CopyTo(new FileStream(filePath, FileMode.Create));
-
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.UploadImage.CopyTo(fileStream);
+                }
             }
 
             return uniekImageNaam;
         }
+        private string ProcessUploadedBannerFile(CategorieViewModel model)
+        {
+            string uniekBannerNaam = null;
+            if (model.UploadBannerURL != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images");
+                uniekBannerNaam = Guid.NewGuid().ToString() + "_" + model.UploadBannerURL.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniekBannerNaam);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.UploadBannerURL.CopyTo(fileStream);
+                }
+            }
 
+            return uniekBannerNaam;
+        }
         // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

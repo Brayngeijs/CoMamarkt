@@ -72,3 +72,7 @@ body {
 .card-body {
     text-align: center;
 }
+.imageTumbnail {
+    height: 200px;
+    width: auto;
+}

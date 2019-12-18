@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CoMamarkt.Data.Migrations
+namespace CoMamarkt.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191204124011_aaaa")]
-    partial class aaaa
+    [Migration("20191218131949_NieuweDatabase")]
+    partial class NieuweDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,30 @@ namespace CoMamarkt.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CoMaMarkt.Models.Bezorgmoment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("BeginTijd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Datum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EindTijd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Prijs")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bezorgmoment");
+                });
 
             modelBuilder.Entity("CoMaMarkt.Models.Categorie", b =>
                 {

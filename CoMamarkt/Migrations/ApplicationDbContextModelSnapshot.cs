@@ -4,16 +4,14 @@ using CoMamarkt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CoMamarkt.Data.Migrations
+namespace CoMamarkt.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191119125113_subcatagories")]
-    partial class subcatagories
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,37 +19,28 @@ namespace CoMamarkt.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CoMaMarkt.Models.Bestelling", b =>
+            modelBuilder.Entity("CoMaMarkt.Models.Bezorgmoment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Achternaam")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("BestellingDatum")
+                    b.Property<DateTime>("BeginTijd")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Huisnummer")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Datum")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Straat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("EindTijd")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Tussenvoegsel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Voornaam")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Woonplaats")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Prijs")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bestelling");
+                    b.ToTable("Bezorgmoment");
                 });
 
             modelBuilder.Entity("CoMaMarkt.Models.Categorie", b =>
@@ -60,6 +49,12 @@ namespace CoMamarkt.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BannerURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Naam")
                         .HasColumnType("nvarchar(max)");
@@ -76,10 +71,7 @@ namespace CoMamarkt.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BestellingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategorieId")
+                    b.Property<int?>("CategorieId")
                         .HasColumnType("int");
 
                     b.Property<long>("EAN")
@@ -103,18 +95,16 @@ namespace CoMamarkt.Data.Migrations
                     b.Property<string>("Omschrijving")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Prijs")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Prijs")
+                        .HasColumnType("float");
 
-                    b.Property<int>("SubcategorieId")
+                    b.Property<int?>("SubcategorieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubsubcategorieId")
+                    b.Property<int?>("SubsubcategorieId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BestellingId");
 
                     b.HasIndex("CategorieId");
 
@@ -367,29 +357,17 @@ namespace CoMamarkt.Data.Migrations
 
             modelBuilder.Entity("CoMaMarkt.Models.Product", b =>
                 {
-                    b.HasOne("CoMaMarkt.Models.Bestelling", "Bestelling")
-                        .WithMany("Products")
-                        .HasForeignKey("BestellingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CoMaMarkt.Models.Categorie", "Categorie")
                         .WithMany("Products")
-                        .HasForeignKey("CategorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategorieId");
 
                     b.HasOne("CoMaMarkt.Models.Subcategorie", "Subcategorie")
                         .WithMany("Products")
-                        .HasForeignKey("SubcategorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubcategorieId");
 
                     b.HasOne("CoMaMarkt.Models.Subsubcategorie", "Subsubcategorie")
                         .WithMany("Products")
-                        .HasForeignKey("SubsubcategorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubsubcategorieId");
                 });
 
             modelBuilder.Entity("CoMaMarkt.Models.Subcategorie", b =>
