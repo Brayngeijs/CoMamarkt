@@ -74,12 +74,9 @@ namespace CoMamarkt.Controllers
         {
             XmlDocument xdoc = new XmlDocument();
 
-            xdoc.Load(
-                "https://supermaco.starwave.nl/api/categories"
-                );
+            xdoc.Load("https://supermaco.starwave.nl/api/categories");
 
             XmlNodeList elemList = xdoc.GetElementsByTagName("Category");
-
             for (int i = 0; i < elemList.Count; i++)
             {
                 XmlNodeList subCategories = elemList[i].SelectNodes("./Subcategory");
