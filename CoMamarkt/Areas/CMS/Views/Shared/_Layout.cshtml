@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
 
@@ -131,7 +132,7 @@
                     <li class="breadcrumb-item active">Blank Page</li>
                 </ol>
                 @RenderBody()
-                
+
 
             </div>
             <!-- /.container-fluid -->
@@ -182,6 +183,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
+    @RenderSection("Scripts", required: false)
 
 </body>
 

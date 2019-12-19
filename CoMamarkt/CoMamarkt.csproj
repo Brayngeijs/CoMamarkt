@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Areas\CMS\Data\" />
     <Folder Include="Areas\CMS\Models\" />
-    <Folder Include="Areas\CMS\Views\Categories\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="obj\Debug\netcoreapp3.0\Razor\Views\Categories\" />
     <Folder Include="wwwroot\CMS\" />
