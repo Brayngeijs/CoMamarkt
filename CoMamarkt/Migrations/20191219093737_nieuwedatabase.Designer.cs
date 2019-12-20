@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoMamarkt.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191218131949_NieuweDatabase")]
-    partial class NieuweDatabase
+    [Migration("20191219093737_nieuwedatabase")]
+    partial class nieuwedatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
