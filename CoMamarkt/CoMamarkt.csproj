@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-CoMamarkt-5E84A125-56FE-4597-A259-5749B19BD59E</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20191218131712_NieuweDatabase.cs" />
+    <Compile Remove="Data\Migrations\20191218131712_NieuweDatabase.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
@@ -20,6 +25,8 @@
   <ItemGroup>
     <Folder Include="Areas\CMS\Data\" />
     <Folder Include="Areas\CMS\Models\" />
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="obj\Debug\netcoreapp3.0\Razor\Views\Categories\" />
     <Folder Include="wwwroot\CMS\" />
   </ItemGroup>
 

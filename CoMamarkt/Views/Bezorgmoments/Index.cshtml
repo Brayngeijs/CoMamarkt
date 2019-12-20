@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Bezorgmomenten</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -35,16 +35,18 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Datum)
+
+                    @Html.DisplayFor(modelItem => item.DeDag)
+                    @Html.DisplayFor(modelItem => item.DeDatum)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BeginTijd)
+                    @Html.DisplayFor(modelItem => item.DeBeginTijd)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EindTijd)
+                    @Html.DisplayFor(modelItem => item.DeEindTijd)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Prijs)
+                   € @Html.DisplayFor(modelItem => item.Prijs)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

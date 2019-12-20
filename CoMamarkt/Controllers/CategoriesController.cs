@@ -9,6 +9,9 @@ using CoMaMarkt.Models;
 using CoMamarkt.Data;
 using System.Xml;
 using System.Globalization;
+using CoMamarkt.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace CoMamarkt.Controllers
 {
@@ -16,15 +19,19 @@ namespace CoMamarkt.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public readonly IWebHostEnvironment webHostEnvironment;
+
+        public CategoriesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categorie.ToListAsync());
+            var subcategorieën = await _context.Categorie.Include(c => c.Subcategorieen).ToListAsync();
+            return View(subcategorieën);
         }
 
         // GET: Categories/Details/5
@@ -34,7 +41,6 @@ namespace CoMamarkt.Controllers
             {
                 return NotFound();
             }
-
             var categorie = await _context.Categorie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categorie == null)
@@ -43,6 +49,20 @@ namespace CoMamarkt.Controllers
             }
 
             return View(categorie);
+        }
+
+        public IActionResult Subcategorieën(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subcategorie = _context.Subcategorie.Where(m => m.CategorieId == id).Include(p => p.Products).Include(p => p.Categorie);
+            if (subcategorie == null)
+            {
+                return NotFound();
+            }
+            return View(subcategorie);
         }
 
         // GET: Categories/Create
@@ -67,7 +87,7 @@ namespace CoMamarkt.Controllers
             return View(categorie);
         }
 
-        public async Task<IActionResult> LoadXml() 
+        public async Task<IActionResult> LoadXml()
         {
             XmlDocument xdoc = new XmlDocument();
 
@@ -81,31 +101,99 @@ namespace CoMamarkt.Controllers
             {
                 Categorie c = new Categorie();
                 c.Naam = elemList[i].SelectSingleNode("./Name").InnerXml;
-                _context.Add(c);
+                _context.Update(c);
             }
 
-           
-                await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[HttpGet]
+        //public IActionResult Edit(int id)
+        //{
+        //    var categorie = _context.Categorie.Find(id);
+        //    CategorieEditViewModel categorieEditViewModel = new CategorieEditViewModel
+        //    {
+        //        Id = categorie.Id,
+        //        Naam = categorie.Naam,
+        //        BestaandeBannerURL = categorie.BannerURL,
+        //        BestaandeImageURL = categorie.Image
+        //    };
 
-            var categorie = await _context.Categorie.FindAsync(id);
-            if (categorie == null)
-            {
-                return NotFound();
-            }
-            return View(categorie);
-        }
+        //    return View(categorieEditViewModel);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> FormEdit(CategorieEditViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var categorie = _context.Categorie.Find(model.Id);
+        //        categorie.Naam = model.Naam;
+        //        if (model.UploadImage != null)
+        //        {
+        //            if (model.BestaandeImageURL != null)
+        //            {
+        //                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "Images", model.BestaandeImageURL);
+        //                System.IO.File.Delete(filePath);
+        //            }
+        //            categorie.Image = ProcessUploadedImageFile(model);
 
+        //        }
+        //        if (model.UploadBannerURL != null)
+        //        {
+        //            if (model.BestaandeBannerURL != null)
+        //            {
+        //                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "Images", model.BestaandeBannerURL);
+        //                System.IO.File.Delete(filePath);
+        //            }
+        //            categorie.BannerURL = ProcessUploadedBannerFile(model);
+
+        //        }
+        //        _context.Update(categorie);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+
+
+
+        //    return View(model);
+
+        //}
+
+        //private string ProcessUploadedImageFile(CategorieViewModel model)
+        //{
+        //    string uniekImageNaam = null;
+        //    if (model.UploadImage != null)
+        //    {
+        //        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Images");
+        //        uniekImageNaam = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
+        //        string filePath = Path.Combine(uploadsFolder, uniekImageNaam);
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            model.UploadImage.CopyTo(fileStream);
+        //        }
+        //    }
+
+        //    return uniekImageNaam;
+        //}
+        //private string ProcessUploadedBannerFile(CategorieViewModel model)
+        //{
+        //    string uniekBannerNaam = null;
+        //    if (model.UploadBannerURL != null)
+        //    {
+        //        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Images");
+        //        uniekBannerNaam = Guid.NewGuid().ToString() + "_" + model.UploadBannerURL.FileName;
+        //        string filePath = Path.Combine(uploadsFolder, uniekBannerNaam);
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            model.UploadBannerURL.CopyTo(fileStream);
+        //        }
+        //    }
+
+        //    return uniekBannerNaam;
+        //}
         // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

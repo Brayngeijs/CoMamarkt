@@ -3,7 +3,7 @@
   <Class Name="CoMaMarkt.Models.Bestelling">
     <Position X="3" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAADAAAAACABAAAAAAgAAAAAAACAAAAAAQAAAAAAAAQ=</HashCode>
+      <HashCode>AAACAAAgACAJAAAAAAgQAAAAAACAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Models\Bestelling.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -15,9 +15,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CoMaMarkt.Models.Categorie">
-    <Position X="18.75" Y="7" Width="2.75" />
+    <Position X="13" Y="7.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABQ=</HashCode>
+      <HashCode>AAACCAAAAAAAAAAAAAAABAAAAAAAABAAAAAAAAAAABQ=</HashCode>
       <FileName>Models\Categorie.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -57,7 +57,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="CoMaMarkt.Models.Subsubcategorie">
-    <Position X="17.5" Y="1.25" Width="2.25" />
+    <Position X="13.25" Y="0.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAGAAAAAAAAAAAACAAABAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Models\Subsubcategorie.cs</FileName>
@@ -77,7 +77,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="CoMamarkt.Models.BestellingProduct">
-    <Position X="6" Y="5.5" Width="2.25" />
+    <Position X="3" Y="7" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\BestellingProduct.cs</FileName>
