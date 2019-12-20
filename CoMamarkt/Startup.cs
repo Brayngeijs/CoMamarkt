@@ -64,7 +64,7 @@ namespace CoMamarkt
                 endpoints.MapControllerRoute(
                 
                 name: "CMS",
-                pattern: "{area:exists}/{controller=CMS}/{action=Index}/{id?}");
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
 
                 endpoints.MapControllerRoute(

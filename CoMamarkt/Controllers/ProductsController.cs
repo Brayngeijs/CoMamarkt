@@ -221,6 +221,5 @@ namespace CoMamarkt.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
-
     }
 }

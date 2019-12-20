@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoMamarkt.Migrations
 {
-    public partial class nieuwedatabase : Migration
+    public partial class NieuweDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

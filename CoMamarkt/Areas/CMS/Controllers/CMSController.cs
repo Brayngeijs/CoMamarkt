@@ -13,6 +13,5 @@ namespace CoMamarkt.Areas.CMS.Controllers
         {
             return View();
         }
-        
     }
 }
