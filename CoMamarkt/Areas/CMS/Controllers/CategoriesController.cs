@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoMamarkt.Data;
 using CoMamarkt.Models;
+using CoMaMarkt.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,7 @@ namespace CoMamarkt.Areas.CMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FormEdit(CategorieEditViewModel model)
+        public async Task<IActionResult> Edit(CategorieEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +76,7 @@ namespace CoMamarkt.Areas.CMS.Controllers
                 _context.Update(categorie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
+            } 
 
 
 
@@ -129,6 +130,55 @@ namespace CoMamarkt.Areas.CMS.Controllers
                 return NotFound();
             }
 
+            return View(categorie);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var categorie = await _context.Categorie
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (categorie == null)
+            {
+                return NotFound();
+            }
+
+            return View(categorie);
+        }
+
+        // POST: Categories/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var categorie = await _context.Categorie.FindAsync(id);
+            _context.Categorie.Remove(categorie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Categories/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Naam")] Categorie categorie)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(categorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return View(categorie);
         }
     }

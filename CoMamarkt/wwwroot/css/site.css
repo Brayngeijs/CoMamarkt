@@ -76,3 +76,7 @@ body {
     height: 200px;
     width: auto;
 }
+
+#textarea {
+    height: 750px;
+}
