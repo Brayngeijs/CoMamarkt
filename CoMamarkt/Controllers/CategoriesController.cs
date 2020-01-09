@@ -57,12 +57,12 @@ namespace CoMamarkt.Controllers
             {
                 return NotFound();
             }
-            var subcategorie = _context.Subcategorie.Where(m => m.CategorieId == id).Include(p => p.Products).Include(p => p.Categorie);
-            if (subcategorie == null)
+            var categorie = _context.Categorie.Where(m => m.Id == id).Include(p => p.Subcategorieen).ThenInclude(s => s.Products).FirstOrDefault();
+            if (categorie == null)
             {
                 return NotFound();
             }
-            return View(subcategorie);
+            return View(categorie);
         }
 
         // GET: Categories/Create
