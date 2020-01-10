@@ -65,14 +65,7 @@ namespace CoMamarkt.Areas.CMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniekeBestandNaam = null;
-                if (model.UploadImage != null)
-                {
-                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ImagesNieuws");
-                    uniekeBestandNaam = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
-                    string bestandLoacatie = Path.Combine(uploadsFolder, uniekeBestandNaam);
-                    model.UploadImage.CopyTo(new FileStream(bestandLoacatie, FileMode.Create));
-                }
+                string uniekeBestandNaam = ProcessUploadedImageFile(model);
                 Nieuws nieuwNieuws = new Nieuws
                 {
                     Titel = model.Titel,
@@ -87,20 +80,38 @@ namespace CoMamarkt.Areas.CMS.Controllers
             return View();
         }
 
-        // GET: CMS/Nieuws/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        private string ProcessUploadedImageFile(NieuwsCreateViewModel model)
         {
-            if (id == null)
+            string uniekeBestandNaam = null;
+            if (model.UploadImage != null)
             {
-                return NotFound();
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ImagesNieuws");
+                uniekeBestandNaam = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
+                string bestandLoacatie = Path.Combine(uploadsFolder, uniekeBestandNaam);
+                using (var fileStream = new FileStream(bestandLoacatie, FileMode.Create))
+                {
+                    model.UploadImage.CopyTo(fileStream);
+                }
             }
 
-            var nieuws = await _context.Nieuws.FindAsync(id);
-            if (nieuws == null)
+            return uniekeBestandNaam;
+        }
+
+        // GET: CMS/Nieuws/Edit/5
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            var nieuws = _context.Nieuws.Find(id);
+            NieuwsEditViewModel nieuwsEditViewModel = new NieuwsEditViewModel
             {
-                return NotFound();
-            }
-            return View(nieuws);
+                Id = nieuws.Id,
+                Titel = nieuws.Titel,
+                Bericht = nieuws.Bericht,
+                Datum = nieuws.Datum,
+                BetsaandeImageUrl = nieuws.Image
+            };
+
+            return View(nieuwsEditViewModel);
         }
 
         // POST: CMS/Nieuws/Edit/5
@@ -108,34 +119,30 @@ namespace CoMamarkt.Areas.CMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titel,Bericht,Datum,Image")] Nieuws nieuws)
+        public async Task<IActionResult> Edit(NieuwsEditViewModel model)
         {
-            if (id != nieuws.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
+                var nieuws = _context.Nieuws.Find(model.Id);
+                nieuws.Titel = model.Titel;
+                nieuws.Bericht = model.Bericht;
+                nieuws.Datum = model.Datum;
+                if (model.UploadImage != null)
                 {
-                    _context.Update(nieuws);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NieuwsExists(nieuws.Id))
+                    if (model.BetsaandeImageUrl != null)
                     {
-                        return NotFound();
+                        string filePath = Path.Combine(webHostEnvironment.WebRootPath, "Images", model.BetsaandeImageUrl);
+                        System.IO.File.Delete(filePath);
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    nieuws.Image = ProcessUploadedImageFile(model);
+
                 }
-                return RedirectToAction(nameof(Index));
+                _context.Update(nieuws);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            return View(nieuws);
+            return View();
         }
 
         // GET: CMS/Nieuws/Delete/5
