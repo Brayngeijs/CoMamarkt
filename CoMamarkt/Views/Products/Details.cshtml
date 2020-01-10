@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
 <!-- Page Content -->
 <div class="container">
@@ -12,8 +11,8 @@
     <!-- Portfolio Item Heading -->
     <h1 class="my-4">
         @Html.DisplayFor(model => model.Naam)
-        <small> @Html.DisplayFor(model => model.Categorie.Naam)</small>
     </h1>
+    <h1> <small> @Html.DisplayFor(model => model.Categorie.Naam)</small> </h1>
 
     <!-- Portfolio Item Row -->
     <div class="row">
