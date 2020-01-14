@@ -28,6 +28,7 @@
     <Folder Include="Data\Migrations\" />
     <Folder Include="obj\Debug\netcoreapp3.0\Razor\Views\Categories\" />
     <Folder Include="wwwroot\CMS\" />
+    <Folder Include="wwwroot\ImagesNieuws\" />
   </ItemGroup>
 
 </Project>
