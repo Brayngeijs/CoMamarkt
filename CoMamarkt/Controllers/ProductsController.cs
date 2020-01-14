@@ -9,6 +9,9 @@ using CoMaMarkt.Models;
 using CoMamarkt.Data;
 using System.Xml;
 using System.Globalization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using CoMamarkt.Models;
 
 namespace CoMamarkt.Controllers
 {
@@ -36,8 +39,70 @@ namespace CoMamarkt.Controllers
             
         }
 
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult AddToCart(int id)
+        {
+            List<WagenItem> cart = new List<WagenItem>();
+            string cartString = HttpContext.Session.GetString("cart");
+            if (cartString != null)
+            {
+                cart = JsonConvert.DeserializeObject<List<WagenItem>>(cartString);
+            }
+
+
+            WagenItem item = new WagenItem
+            {
+                Amount = 1,
+                ProductId = id
+
+            };
+            WagenItem item2 = cart.Find(c => c.ProductId == id);
+            if (item2 != null)
+            {
+                item2.Amount++;
+            }
+            else
+            {
+                cart.Add(item);
+            }
+
+            cartString = JsonConvert.SerializeObject(cart);
+            HttpContext.Session.SetString("cart", cartString);
+
+            return RedirectToAction("index");
+        }
+
+        public IActionResult Cart()
+        {
+            List<WagenItem> cart = new List<WagenItem>();
+            string cartString = HttpContext.Session.GetString("cart");
+            if (cartString != null)
+            {
+                cart = JsonConvert.DeserializeObject<List<WagenItem>>(cartString);
+            }
+
+            List<Winkelwagen> cartvm = new List<Winkelwagen>();
+            foreach (WagenItem ci in cart)
+            {
+                Winkelwagen civm = new Winkelwagen();
+                civm.ProductId = ci.ProductId;
+                civm.Amount = ci.Amount;
+
+                Product p = _context.Product.Find(ci.ProductId);
+
+                civm.Naam = p.Naam;
+                civm.Prijs = p.Prijs;
+                civm.Image = p.Image;
+
+                cartvm.Add(civm);
+
+            }
+
+            return View(cartvm);
+        }
+    
+
+    // GET: Products/Details/5
+    public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -221,5 +286,6 @@ namespace CoMamarkt.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+        
     }
 }

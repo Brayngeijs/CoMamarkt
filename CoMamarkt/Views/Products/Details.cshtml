@@ -37,6 +37,7 @@
     </div>
 </div>
 <div>
-    <a href="#" class="btn btn-primary">Terug naar producten</a>
-    <a href="#" class="btn btn-primary">Bestel!</a>
+    <a asp-action="Index" class="btn btn-primary">Terug naar producten</a>
+    
+        <a asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-primary">Voeg Toe</a>
 </div>

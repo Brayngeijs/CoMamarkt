@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CoMaMarkt.Models.Winkelwagen>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h2>Winkelwagen</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Naam
+            </th>
+            <th>
+                Aantal
+            </th>
+            <th>
+                Prijs
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                € @Html.DisplayFor(modelItem => item.Totaal)
+            </td>
+            <td>
+                <a asp-action="DeleteItem" asp-route-id="@item.ProductId">Verwijder product</a>
+            </td>
+            
+        </tr>
+}   
+    </tbody>
+</table>
+<a class="btn btn-primary text-light" asp-action="Checkout" asp-controller="Checkout">Bestellen</a>

@@ -10,7 +10,11 @@ namespace CoMamarkt.Models
     {
         public int Id { get; set; }
         public Bestelling Bestelling { get; set; }
+        public int BestellingId { get; set; }
         public Product Product { get; set; }
+        public int ProductId { get; set; }
+        public double Price { get; set; }
+        public int Amount { get; set; }
 
     }
 }

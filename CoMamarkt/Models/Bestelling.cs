@@ -11,16 +11,19 @@ namespace CoMaMarkt.Models
     {
 
         public int Id { get; set; }
-        public string Voornaam { get; set; }
-        public string Tussenvoegsel { get; set; }
-        public string Achternaam { get; set; }
+        public string Naam { get; set; }
         public string Woonplaats { get; set; }
         public string Straat { get; set; }
         public string Huisnummer { get; set; }
         public DateTime BestellingDatum { get; set; }
         [NotMapped]
         public List<Product> Products { get; set; }
-
+        public IdentityUser User { get; set; }
+        public string UserId { get; set; }
+        public Bestelling()
+        {
+            BestellingDatum = DateTime.Now;
+        }
 
     }
 }
