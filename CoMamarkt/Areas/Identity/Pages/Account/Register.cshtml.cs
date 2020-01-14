@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CoMamarkt.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -45,6 +46,15 @@ namespace CoMamarkt.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            public string Voornaam { get; set; }
+            public string Tussenvoegsel { get; set; }
+            public string Achternaam { get; set; }
+            public DateTime Geboortedatum { get; set; }
+            public string Straat { get; set; }
+            public string Huisnummer { get; set; }
+            public string Plaats { get; set; }
+            public string Postcode { get; set; }
+            public string Telefoonnummer { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
