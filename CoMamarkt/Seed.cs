@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CoMamarkt.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace CoMamarkt
 {
     public class Seed
     {
-        public static void SeedUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void SeedUsers(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (roleManager.FindByNameAsync("admin").Result == null)
             {
@@ -20,8 +21,14 @@ namespace CoMamarkt
             }
             if (userManager.FindByEmailAsync("abc@xyz.com").Result == null)
             {
-                IdentityUser user = new IdentityUser
+                User user = new User
                 {
+                    Voornaam = "Admin",
+                    Achternaam = "Jansen",
+                    Straat = "Adminstraat",
+                    Huisnummer = "69",
+                    Plaats = "Adminstad",
+                    Postcode = "1234AB",
                     UserName = "abc@xyz.com",
                     Email = "abc@xyz.com",
                     EmailConfirmed = true
@@ -45,8 +52,14 @@ namespace CoMamarkt
             }
             if (userManager.FindByEmailAsync("web@coma.com").Result == null)
             {
-                IdentityUser user = new IdentityUser
+                User user = new User
                 {
+                    Voornaam = "Webredacteur",
+                    Achternaam = "Jansen",
+                    Straat = "Webredacteurstraat",
+                    Huisnummer = "69",
+                    Plaats = "Webredacteurstad",
+                    Postcode = "1234AB",
                     UserName = "web@coma.com",
                     Email = "web@coma.com",
                     EmailConfirmed = true

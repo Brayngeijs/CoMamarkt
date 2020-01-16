@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoMamarkt.Migrations
 {
-    public partial class NieuweDatabase : Migration
+    public partial class Users : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,16 @@ namespace CoMamarkt.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Voornaam = table.Column<string>(nullable: true),
+                    Tussenvoegsel = table.Column<string>(nullable: true),
+                    Achternaam = table.Column<string>(nullable: true),
+                    Geboortedatum = table.Column<DateTime>(nullable: false),
+                    Straat = table.Column<string>(nullable: true),
+                    Huisnummer = table.Column<string>(nullable: true),
+                    Plaats = table.Column<string>(nullable: true),
+                    Postcode = table.Column<string>(nullable: true),
+                    Telefoonnummer = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,6 +84,22 @@ namespace CoMamarkt.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorie", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nieuws",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titel = table.Column<string>(nullable: true),
+                    Bericht = table.Column<string>(nullable: true),
+                    Datum = table.Column<DateTime>(nullable: false),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nieuws", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -348,6 +373,9 @@ namespace CoMamarkt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bezorgmoment");
+
+            migrationBuilder.DropTable(
+                name: "Nieuws");
 
             migrationBuilder.DropTable(
                 name: "Product");

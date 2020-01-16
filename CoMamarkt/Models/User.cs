@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace CoMamarkt.Models
         public string Voornaam { get; set; }
         public string Tussenvoegsel { get; set; }
         public string Achternaam { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Geboortedatum { get; set; }
         public string Straat { get; set; }
         public string Huisnummer { get; set; }

@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
+    <script>
+function goBack() {
+  window.history.back();
+}
+    </script>
+
 
 
 <!-- Page Content -->
@@ -36,7 +42,7 @@
     </div>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-primary">Terug naar producten</a>
+    <a class="btn btn-primary text-white" onclick="goBack()">Terug naar producten</a>
     
         <a asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-primary">Voeg Toe</a>
 </div>

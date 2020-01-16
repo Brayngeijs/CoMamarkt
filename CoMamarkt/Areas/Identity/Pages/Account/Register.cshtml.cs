@@ -20,14 +20,14 @@ namespace CoMamarkt.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -46,13 +46,20 @@ namespace CoMamarkt.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
             public string Voornaam { get; set; }
             public string Tussenvoegsel { get; set; }
+            [Required]
             public string Achternaam { get; set; }
+            [DataType(DataType.Date)]
             public DateTime Geboortedatum { get; set; }
+            [Required]
             public string Straat { get; set; }
+            [Required]
             public string Huisnummer { get; set; }
+            [Required]
             public string Plaats { get; set; }
+            [Required]
             public string Postcode { get; set; }
             public string Telefoonnummer { get; set; }
             [Required]
@@ -84,7 +91,9 @@ namespace CoMamarkt.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new User { UserName = Input.Email, Email = Input.Email, Voornaam = Input.Voornaam, Tussenvoegsel = Input.Tussenvoegsel, 
+                                    Achternaam = Input.Achternaam, Geboortedatum = Input.Geboortedatum, Straat = Input.Straat, 
+                                    Huisnummer = Input.Huisnummer, Plaats = Input.Plaats, Postcode = Input.Postcode, Telefoonnummer = Input.Telefoonnummer };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
