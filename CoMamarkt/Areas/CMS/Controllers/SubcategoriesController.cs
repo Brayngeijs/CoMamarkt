@@ -11,23 +11,24 @@ using System.Xml;
 
 namespace CoMamarkt.Controllers
 {
-    public class SubsubcategoriesController : Controller
+    [Area("CMS")]
+    public class SubcategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SubsubcategoriesController(ApplicationDbContext context)
+        public SubcategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Subsubcategories
+        // GET: Subcategories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Subsubcategorie.Include(s => s.Subcategorie);
+            var applicationDbContext = _context.Subcategorie.Include(s => s.Categorie);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Subsubcategories/Details/5
+        // GET: Subcategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,65 +36,68 @@ namespace CoMamarkt.Controllers
                 return NotFound();
             }
 
-            var subsubcategorie = await _context.Subsubcategorie
-                .Include(s => s.Subcategorie)
+            var subcategorie = await _context.Subcategorie
+                .Include(s => s.Categorie)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (subsubcategorie == null)
+            if (subcategorie == null)
             {
                 return NotFound();
             }
 
-            return View(subsubcategorie);
+            return View(subcategorie);
         }
 
-        // GET: Subsubcategories/Create
+        // GET: Subcategories/Create
         public IActionResult Create()
         {
-            ViewData["SubcategorieNaam"] = new SelectList(_context.Subcategorie, "Id", "Naam");
+            ViewData["CategorieNaam"] = new SelectList(_context.Categorie, "Id", "Naam");
             return View();
         }
 
-        // POST: Subsubcategories/Create
+        // POST: Subcategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Naam,SubcategorieId")] Subsubcategorie subsubcategorie)
+        public async Task<IActionResult> Create([Bind("Id,Naam,CategorieId")] Subcategorie subcategorie)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subsubcategorie);
+                _context.Add(subcategorie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", subsubcategorie.SubcategorieId);
-            return View(subsubcategorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", subcategorie.CategorieId);
+            return View(subcategorie);
         }
 
         public async Task<IActionResult> LoadXml()
         {
             XmlDocument xdoc = new XmlDocument();
 
-            xdoc.Load("https://supermaco.starwave.nl/api/categories");
+            xdoc.Load(
+                "https://supermaco.starwave.nl/api/categories"
+                );
 
             XmlNodeList elemList = xdoc.GetElementsByTagName("Category");
+
             for (int i = 0; i < elemList.Count; i++)
             {
+
                 XmlNodeList subCategories = elemList[i].SelectNodes("./Subcategory");
+
                 for (int y = 0; y < subCategories.Count; y++)
                 {
-                    XmlNodeList subsubCategories = subCategories[y].SelectNodes("./Subsubcategory");
-                    for (int x = 0; x < subsubCategories.Count; x++)
-                    {
-                        Subsubcategorie ssc = new Subsubcategorie();
-                        var categorieNaam = subCategories[y].SelectSingleNode("./Name").InnerXml;
-                        var categorie = _context.Subcategorie.First(c => c.Naam == categorieNaam);
-                        ssc.Subcategorie = categorie;
-                        ssc.Naam = subsubCategories[x].SelectSingleNode("./Name").InnerXml;
+                    Subcategorie sc = new Subcategorie();
+
+                    var categorieNaam = elemList[i].SelectSingleNode("./Name").InnerXml;
+                    var categorie = _context.Categorie.First(c => c.Naam == categorieNaam);
+                    sc.Categorie = categorie;
+
+                    sc.Naam = subCategories[y].SelectSingleNode("./Name").InnerXml;                    
 
 
-                        _context.Add(ssc);
-                    }
+                    _context.Add(sc);
                 }
             }
 
@@ -103,7 +107,8 @@ namespace CoMamarkt.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Subsubcategories/Edit/5
+
+        // GET: Subcategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,23 +116,23 @@ namespace CoMamarkt.Controllers
                 return NotFound();
             }
 
-            var subsubcategorie = await _context.Subsubcategorie.FindAsync(id);
-            if (subsubcategorie == null)
+            var subcategorie = await _context.Subcategorie.FindAsync(id);
+            if (subcategorie == null)
             {
                 return NotFound();
             }
-            ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", subsubcategorie.SubcategorieId);
-            return View(subsubcategorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", subcategorie.CategorieId);
+            return View(subcategorie);
         }
 
-        // POST: Subsubcategories/Edit/5
+        // POST: Subcategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Naam,SubcategorieId")] Subsubcategorie subsubcategorie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Naam,CategorieId")] Subcategorie subcategorie)
         {
-            if (id != subsubcategorie.Id)
+            if (id != subcategorie.Id)
             {
                 return NotFound();
             }
@@ -136,12 +141,12 @@ namespace CoMamarkt.Controllers
             {
                 try
                 {
-                    _context.Update(subsubcategorie);
+                    _context.Update(subcategorie);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubsubcategorieExists(subsubcategorie.Id))
+                    if (!SubcategorieExists(subcategorie.Id))
                     {
                         return NotFound();
                     }
@@ -152,11 +157,11 @@ namespace CoMamarkt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubcategorieId"] = new SelectList(_context.Subcategorie, "Id", "Id", subsubcategorie.SubcategorieId);
-            return View(subsubcategorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "Id", subcategorie.CategorieId);
+            return View(subcategorie);
         }
 
-        // GET: Subsubcategories/Delete/5
+        // GET: Subcategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,31 +169,31 @@ namespace CoMamarkt.Controllers
                 return NotFound();
             }
 
-            var subsubcategorie = await _context.Subsubcategorie
-                .Include(s => s.Subcategorie)
+            var subcategorie = await _context.Subcategorie
+                .Include(s => s.Categorie)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (subsubcategorie == null)
+            if (subcategorie == null)
             {
                 return NotFound();
             }
 
-            return View(subsubcategorie);
+            return View(subcategorie);
         }
 
-        // POST: Subsubcategories/Delete/5
+        // POST: Subcategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subsubcategorie = await _context.Subsubcategorie.FindAsync(id);
-            _context.Subsubcategorie.Remove(subsubcategorie);
+            var subcategorie = await _context.Subcategorie.FindAsync(id);
+            _context.Subcategorie.Remove(subcategorie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SubsubcategorieExists(int id)
+        private bool SubcategorieExists(int id)
         {
-            return _context.Subsubcategorie.Any(e => e.Id == id);
+            return _context.Subcategorie.Any(e => e.Id == id);
         }
     }
 }

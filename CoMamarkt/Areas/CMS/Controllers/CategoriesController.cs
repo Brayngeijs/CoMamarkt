@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using CoMamarkt.Data;
 using CoMamarkt.Models;
 using CoMaMarkt.Models;
@@ -180,6 +181,28 @@ namespace CoMamarkt.Areas.CMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(categorie);
+        }
+        public async Task<IActionResult> LoadXml()
+        {
+            XmlDocument xdoc = new XmlDocument();
+
+            xdoc.Load(
+                "https://supermaco.starwave.nl/api/categories"
+                );
+
+            XmlNodeList elemList = xdoc.GetElementsByTagName("Category");
+
+            for (int i = 0; i < elemList.Count; i++)
+            {
+                Categorie c = new Categorie();
+                c.Naam = elemList[i].SelectSingleNode("./Name").InnerXml;
+                _context.Update(c);
+            }
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
