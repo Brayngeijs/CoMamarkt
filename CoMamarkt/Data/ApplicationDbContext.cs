@@ -20,5 +20,7 @@ namespace CoMamarkt.Data
         public DbSet<CoMaMarkt.Models.Product> Product { get; set; }
         public DbSet<CoMaMarkt.Models.Bezorgmoment> Bezorgmoment { get; set; }
         public DbSet<CoMaMarkt.Models.Nieuws> Nieuws { get; set; }
+        public DbSet<Bestelling> Bestellings { get; set; }
+        public DbSet<BestellingProduct> BestellingProducts { get; set; }
     }
 }

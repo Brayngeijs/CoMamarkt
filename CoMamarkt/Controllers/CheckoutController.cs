@@ -102,7 +102,7 @@ namespace CoMamarkt.Controllers
                 return StatusCode(500);
             }
 
-            return View("confirm");
+            return View("Confirm");
         }
     }
 }

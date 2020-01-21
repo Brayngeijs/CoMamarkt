@@ -19,7 +19,7 @@ namespace CoMaMarkt.Models
         public DateTime BestellingDatum { get; set; }
         [NotMapped]
         public List<BestellingProduct> BestellingProducts { get; set; }
-        public IdentityUser User { get; set; }
+        public User User { get; set; }
         public string UserId { get; set; }
         public Bestelling()
         {
