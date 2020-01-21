@@ -9,7 +9,7 @@ namespace CoMamarkt.Models
 {
     public class Checkout
     {
-        public List<Winkelwagen> CartItems { get; set; }
+        public List<Winkelwagen> WagenItems { get; set; }
         public double TotalPrice { get; set; }
 
         [Required]

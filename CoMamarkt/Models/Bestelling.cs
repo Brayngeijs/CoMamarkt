@@ -18,8 +18,8 @@ namespace CoMaMarkt.Models
         public string Huisnummer { get; set; }
         public DateTime BestellingDatum { get; set; }
         [NotMapped]
-        public List<Product> Products { get; set; }
-        public User User { get; set; }
+        public List<BestellingProduct> BestellingProducts { get; set; }
+        public IdentityUser User { get; set; }
         public string UserId { get; set; }
         public Bestelling()
         {
