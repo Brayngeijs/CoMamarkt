@@ -7,11 +7,10 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Nieuw account aanmaken</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label asp-for="Input.Voornaam"></label>
                     <input asp-for="Input.Voornaam" class="form-control" />
@@ -38,7 +37,7 @@
                     <span asp-validation-for="Input.Telefoonnummer" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label asp-for="Input.Straat"></label>
                     <input asp-for="Input.Straat" class="form-control" />
@@ -60,7 +59,7 @@
                     <span asp-validation-for="Input.Postcode" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -79,8 +78,7 @@
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>
 
-        </form>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="col-md-12">
         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
             <div>
                 <p>
@@ -93,6 +91,7 @@
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
