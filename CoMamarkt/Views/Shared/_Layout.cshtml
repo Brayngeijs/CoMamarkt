@@ -27,7 +27,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Producten</a>
                         </li>
                         <li>
-                            <a class="btn btn-info" asp-area="" asp-controller="Cart" asp-action="cart">
+                            <a class="btn btn-info" asp-area="" asp-controller="Products" asp-action="cart">
                                 <span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen
                             </a>
                         </li>
@@ -40,8 +40,8 @@
             <div class="container">
                 <form asp-controller="Products" asp-action="Index" method="get">
                     <p>
-                        <input type="text" name="searchString" placeholder="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <input type="text" name="searchString" placeholder="Zoek">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Zoek</button>
                     </p>
                 </form>
             </div>
@@ -59,7 +59,7 @@
 
         <footer class="border-top footer text-muted">
             <div class="container">
-                &copy; 2019 - CoMamarkt - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+              <a> CoMamarkt - Gemaakt door Brayn Geijs, Sem Ruiter en Thijs Grooten.</a>
             </div>
         </footer>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>

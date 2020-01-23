@@ -10,13 +10,11 @@ namespace CoMamarkt.Models
     public class Checkout
     {
         public List<Winkelwagen> WagenItems { get; set; }
-        public double TotalPrice { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Address { get; set; }
-        [Required]
-        public string City { get; set; }
+        public double Totaal { get; set; }
+        public string Naam { get; set; }
+        public string Woonplaats { get; set; }
+        public string Straat { get; set; }
+        public string Huisnummer { get; set; }
+       
     }
 }

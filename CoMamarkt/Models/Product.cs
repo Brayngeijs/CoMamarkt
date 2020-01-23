@@ -16,9 +16,6 @@ namespace CoMaMarkt.Models
 
         public int? SubsubcategorieId { get; set; }
         public Subsubcategorie Subsubcategorie { get; set; }
-        
-        [NotMapped]
-        public List<Bestelling> Bestellings { get; set; } 
 
         public int Id { get; set; }
         public long EAN { get; set; }

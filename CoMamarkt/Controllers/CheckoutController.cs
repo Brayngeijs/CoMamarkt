@@ -26,6 +26,7 @@ namespace CoMamarkt.Controllers
             _userManager = userMan;
         }
 
+
         [HttpGet]
         public IActionResult Checkout()
         {
@@ -40,7 +41,7 @@ namespace CoMamarkt.Controllers
 
             List<Winkelwagen> cartvm = new List<Winkelwagen>();
 
-            double totalPrice = 0;
+            double totaal = 0;
 
             foreach (WagenItem ci in cart)
             {
@@ -55,13 +56,13 @@ namespace CoMamarkt.Controllers
                 civm.Prijs = p.Prijs;
                 civm.Image = p.Image;
 
-                totalPrice += ci.Amount * p.Prijs;
+                totaal += ci.Amount * p.Prijs;
 
                 cartvm.Add(civm);
             }
 
             cvm.WagenItems = cartvm;
-            cvm.TotalPrice = totalPrice;
+            cvm.Totaal = totaal;
 
             return View(cvm);
         }
@@ -69,6 +70,10 @@ namespace CoMamarkt.Controllers
         public async Task<IActionResult> Checkout(Checkout model)
         {
             Bestelling bestelling = new Bestelling();
+            bestelling.Naam = model.Naam;
+            bestelling.Woonplaats = model.Woonplaats;
+            bestelling.Straat = model.Straat;
+            bestelling.Huisnummer = model.Huisnummer;
             User user = await _userManager.GetUserAsync(HttpContext.User);
             bestelling.User = user;
             bestelling.BestellingProducts = new List<BestellingProduct>();

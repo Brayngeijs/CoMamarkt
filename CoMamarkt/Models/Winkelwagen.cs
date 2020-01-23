@@ -13,7 +13,6 @@ namespace CoMaMarkt.Models
         public double Prijs { get; set; }
         public string Naam { get; set; }
         public string Image { get; set; }
-        public Product Product { get; set; }
         public double Totaal
         {
             get

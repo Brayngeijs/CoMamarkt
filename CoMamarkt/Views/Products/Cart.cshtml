@@ -20,7 +20,10 @@
                 Prijs
             </th>
             <th>
-                
+
+            </th>
+            <th>
+
             </th>
         </tr>
     </thead>
@@ -38,9 +41,12 @@
                 € @Html.DisplayFor(modelItem => item.Totaal)
             </td>
             <td>
+                <img src="@item.Image" height="64" />
+            </td>
+            <td>
                 <a asp-action="DeleteItem" asp-route-id="@item.ProductId">Verwijder product</a>
             </td>
-            
+
         </tr>
 }   
     </tbody>

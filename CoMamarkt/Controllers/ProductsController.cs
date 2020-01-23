@@ -98,10 +98,27 @@ namespace CoMamarkt.Controllers
 
             return View(cartvm);
         }
-    
+        public IActionResult DeleteItem(int? id)
+        {
+            List<WagenItem> cart = new List<WagenItem>();
 
-    // GET: Products/Details/5
-    public async Task<IActionResult> Details(int? id)
+            string cartString = HttpContext.Session.GetString("cart");
+            if (cartString != null)
+                cart = JsonConvert.DeserializeObject<List<WagenItem>>(cartString);
+
+
+            WagenItem item = cart.Find(c => c.ProductId == id);
+            cart.Remove(item);
+
+            cartString = JsonConvert.SerializeObject(cart);
+            HttpContext.Session.SetString("cart", cartString);
+
+            return RedirectToAction("Cart");
+        }
+
+
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
