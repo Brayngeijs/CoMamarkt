@@ -63,7 +63,7 @@ namespace CoMamarkt.Controllers
 
             cvm.WagenItems = cartvm;
             cvm.Totaal = totaal;
-
+            totaal = Math.Round(totaal, 3);
             return View(cvm);
         }
         [HttpPost]

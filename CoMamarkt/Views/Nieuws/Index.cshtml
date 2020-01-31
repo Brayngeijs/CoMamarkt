@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CoMaMarkt.Models.Nieuws>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Nieuws</h2>
+<table class="table">
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.Raw(item.Bericht)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datum)
+            </td>
+            <td>
+                <img class="imageTumbnail" alt="Nieuws foto" src="~/ImagesNieuws/@Html.DisplayFor(modelItem => item.Image)" />
+            </td>
+            <td>
+               
+                <a asp-action="Details" asp-route-id="@item.Id">Zie meer</a> 
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

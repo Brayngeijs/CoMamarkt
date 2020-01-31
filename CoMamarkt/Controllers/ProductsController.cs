@@ -35,7 +35,9 @@ namespace CoMamarkt.Controllers
             {
                 products = products.Where(p => p.Categorie.Naam.Contains(searchString) || p.Subcategorie.Naam.Contains(searchString) || p.Subsubcategorie.Naam.Contains(searchString) || p.Naam.Contains(searchString));
             }
+            
             return View(await products.ToListAsync());
+
         }
 
         public IActionResult AddToCart(int id)
@@ -302,6 +304,7 @@ namespace CoMamarkt.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+      
         
     }
 }

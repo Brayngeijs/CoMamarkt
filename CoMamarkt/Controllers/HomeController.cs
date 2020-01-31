@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CoMamarkt.Models;
+using CoMaMarkt.Models;
 
 namespace CoMamarkt.Controllers
 {
@@ -20,7 +21,10 @@ namespace CoMamarkt.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
+            
+
         }
 
         public IActionResult Privacy()
@@ -33,5 +37,10 @@ namespace CoMamarkt.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
+
+
+
+
     }
 }

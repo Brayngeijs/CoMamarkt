@@ -27,7 +27,6 @@ namespace CoMaMarkt.Models
         public string Gewicht { get; set; }
         public double Prijs { get; set; }
 
-        
 
     }
 }
